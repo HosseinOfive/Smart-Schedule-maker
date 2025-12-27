@@ -1,0 +1,13 @@
+# Virtual Environment
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# SECRETS (Critical)
+.env
+
+# OS Files
+.DS_Store
