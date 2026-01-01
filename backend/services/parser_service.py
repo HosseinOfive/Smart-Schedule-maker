@@ -2,8 +2,8 @@ import pytz
 from datetime import datetime, timedelta
 from dateutil import rrule
 from typing import List
-from ics_core.schemas import Event
-from ics_core.date_utils import norm_datetime, get_expansion_window
+from backend.ics_core.schemas import Event
+from backend.ics_core.date_utils import norm_datetime, get_expansion_window
 from icalendar import Calendar, Component
 
 

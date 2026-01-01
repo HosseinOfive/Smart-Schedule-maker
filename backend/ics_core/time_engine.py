@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, time
 from typing import List
 from zoneinfo import ZoneInfo
 from backend.ics_core.schemas import Event, FreeSlot
-from ics_core.CONSTANTS import  TARGET_TZ, EXPANSION_MONTHS, DEFAULT_DAY_START_HOUR, DEFAULT_DAY_END_HOUR, MIN_FREE_SLOT_MINUTES
+from backend.ics_core.CONSTANTS import  TARGET_TZ, EXPANSION_MONTHS, DEFAULT_DAY_START_HOUR, DEFAULT_DAY_END_HOUR, MIN_FREE_SLOT_MINUTES
 
 
 
