@@ -1,4 +1,4 @@
-import pytest 
+import pytest  # type: ignore
 import sys
 import os
 from datetime import datetime, timedelta
