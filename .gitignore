@@ -1,6 +1,7 @@
 # Backend
 backend/venv/
 backend/__pycache__/
+*.py[cod]
 backend/.env
 backend/.pytest_cache/
 
@@ -9,3 +10,7 @@ frontend/node_modules/
 frontend/.next/
 frontend/.env.local
 frontend/.env
+
+
+# OS Metadata
+.DS_Store
