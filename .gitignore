@@ -2,17 +2,22 @@
 backend/venv/
 backend/__pycache__/
 *.py[cod]
+backend/*.pyc
+backend/.venv/
 backend/.env
 backend/.pytest_cache/
 backend/ics_core/__pycache__/
 backend/services/__pycache__/
+backend/node_modules/
 
 # Frontend
 frontend/node_modules/
 frontend/.next/
+frontend/out/
 frontend/.env.local
 frontend/.env
 
 
 # OS Metadata
 .DS_Store
+.vscode/
