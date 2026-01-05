@@ -15,7 +15,7 @@ export default function UploadWidget({ onFileSelect, status }: UploadWidgetProps
     }
   }, [onFileSelect]);
 
-  // FIX: Cast the entire options object to 'any' to bypass the version conflict
+     /////I am casting with any deal with it later!
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ 
     onDrop,
     maxFiles: 1,
@@ -30,7 +30,7 @@ export default function UploadWidget({ onFileSelect, status }: UploadWidgetProps
       className={`p-6 border-2 border-dashed rounded-xl transition-all cursor-pointer text-center select-none
         ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400 bg-gray-50'}`}
     >
-      {/* Keep the previous fix here as well */}
+      {}
       <input {...(getInputProps() as any)} />
       
       {status === 'uploading' ? (

@@ -101,18 +101,16 @@ async def test_ai_scheduler_integration(mock_free_slots):
     """
     print("\n\n🧪 INITIALIZING PHASE 2 INTEGRATION TEST...")
     
-    # 1. Instantiate Scheduler
-    # We let this crash naturally if the API Key is missing. Pytest will report it.
+
+    # let this crash naturally if the API Key is missing. Pytest will report it.
     scheduler = AIScheduler()
 
-    # 2. Define User Goal
+    # User Goal
     user_goal = "I want to hit the Gym 2 times this week."
     print(f"🎯 User Goal: {user_goal}")
     print(f"📂 Input: {len(mock_free_slots)} Free Slots provided.")
 
-    # 3. Call the AI (The "Brain")
-    # We removed the try/except block. 
-    # If this fails, the test stops here, so 'response' is never "unbound".
+    # 3. Call the AI 
     response = await scheduler.generate_schedule(mock_free_slots, user_goal)
 
     # 4. Assertions & Validation

@@ -15,7 +15,7 @@ class AIScheduler:
     """
     Interacts with google Generative AI
     this is a langchin wrapper
-    in phase 3 this will be wrapped in a langGraph
+    in phase 3 this will be wrapped in a langGraph  ##the NOT mocked one ofc!
     """
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
@@ -73,8 +73,7 @@ class AIScheduler:
                 })
                 return result
             except Exception as e:
-                print(f"❌ AI Service Error: {e}")
-                # Optional: Add fallback logic here later
+                print(f"❌ AI Service Error: {e}") #debug
                 raise e 
 
             
