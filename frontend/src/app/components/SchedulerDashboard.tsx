@@ -4,21 +4,21 @@ import React, { useState } from 'react';
 import { View, Views } from 'react-big-calendar';
 import UploadWidget from './dashboard/UploadWidget';
 import CalendarPanel from './dashboard/CalendarPanel';
-import MapPanel from './dashboard/MapPanel'; // Assuming you create this similarly
+///import MapPanel from './dashboard/MapPanel'; 
 
 export default function SchedulerDashboard() {
-  // --- STATE MANAGEMENT ---
+  // states
   const [events, setEvents] = useState<any[]>([]); // Replace any with proper type
   const [view, setView] = useState<View>(Views.WEEK);
   const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success'>('idle');
 
-  // --- HANDLERS ---
+  
   const handleFileProcess = (file: File) => {
     setUploadStatus('uploading');
     console.log("Processing:", file.name);
-    // Mock API logic
+   
     setTimeout(() => {
-        // ... parsing logic ...
+
         setUploadStatus('success');
     }, 1000);
   };

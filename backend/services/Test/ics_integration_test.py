@@ -12,8 +12,6 @@ from ics_core.CONSTANTS import TARGET_TZ
 
 
 
-# 1. DEFINE DUMMY DATA
-# We create a fake ICS file string.
 # - Event 1: "CSCB07 Lecture" (Recurring Weekly for 3 weeks starting Jan 10, 2026)
 # - Event 2: "MATA41 Midterm" (Single event on Jan 15, 2026, specified in UTC)
 
@@ -37,11 +35,11 @@ DESCRIPTION:Calculus II Test (Note: This time is in UTC!)
 END:VEVENT
 END:VCALENDAR"""
 
-# 2. RUN THE INGESTION SERVICE
+
 print("--- 1. STARTING INGESTION ---")
 events = parse_ics_file(raw_ics_data)
 
-# 3. VERIFY OUTPUT
+
 print(f"--- 2. FOUND {len(events)} EVENTS ---")
 
 for i, event in enumerate(events, 1):
@@ -51,7 +49,7 @@ for i, event in enumerate(events, 1):
     print(f"  Start:     {event.start_time.strftime('%Y-%m-%d %H:%M %Z')}")
     print(f"  End:       {event.end_time.strftime('%Y-%m-%d %H:%M %Z')}")
     
-    # Check if timezone conversion worked (Should be EST/EDT)
+    #  (Should be EST/EDT)
     tz_name = str(event.start_time.tzinfo)
     valid_zones = ['America/Toronto', 'EST', 'EDT']
 

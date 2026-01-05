@@ -1,5 +1,5 @@
-from ics_core.CONSTANTS import  TARGET_TZ, EXPANSION_MONTHS, DEFAULT_DAY_START_HOUR, DEFAULT_DAY_END_HOUR
-from ics_core.schemas import Event, FreeSlot
+from backend.ics_core.CONSTANTS import  TARGET_TZ, EXPANSION_MONTHS, DEFAULT_DAY_START_HOUR, DEFAULT_DAY_END_HOUR
+from backend.ics_core.schemas import Event, FreeSlot
 from datetime import datetime, timedelta, time
 from typing import  Any, Tuple, List
 from dateutil.relativedelta import relativedelta

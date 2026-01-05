@@ -2,37 +2,21 @@ import sys
 import os
 from datetime import datetime
 
-# ------------------------------------------------------------------
-# 1. PATH SETUP: Add Project Root to System Path
-# ------------------------------------------------------------------
-# Get directory of this file: .../backend/services/Test
-current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Go up 3 levels to get to Project Root:
-# 1. .../backend/services
-# 2. .../backend
-# 3. .../projects/schedule (ROOT)
+current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
 
 # Add project root to sys.path so we can import 'backend.ics_core'
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# ------------------------------------------------------------------
-# 2. IMPORTS (Standardized to Project Root)
-# ------------------------------------------------------------------
-# ⚠️ CHANGED: Added 'backend.' prefix to match project structure
+
 from backend.ics_core.schemas import Event, ScheduleResponse, ScheduledActivity
 from backend.services.geo_mock import merge_and_validate_mock 
 
 def test_aggregator_logic():
     print(f"🧪 Running Aggregator Test...\n")
 
-    # --- SCENARIO SETUP ---
-    # Constraint: Mock Geo Service requires 15 mins travel time.
-    # Situation: Class ends at 10:00. AI schedules Gym at 10:05 (5 min gap).
-    
-    # 1. Mock Fixed Event (Lecture)
     fixed_events = [
         Event(
             summary="CSCB07 Lecture",
@@ -43,7 +27,6 @@ def test_aggregator_logic():
         )
     ]
 
-    # 2. Mock AI Response (Impossible Suggestion)
     ai_suggestions = ScheduleResponse(
         scheduled_activities=[
             ScheduledActivity(
@@ -55,11 +38,11 @@ def test_aggregator_logic():
         ]
     )
 
-    # --- EXECUTION ---
+
     print("🔄 Merging and Validating...")
     master_schedule = merge_and_validate_mock(fixed_events, ai_suggestions)
 
-    # --- VERIFICATION ---
+    
     print(f"📊 Generated {len(master_schedule)} items.\n")
 
     gym_session = master_schedule[1] # The second item
@@ -71,7 +54,7 @@ def test_aggregator_logic():
         print("❌ FAILURE: The aggregator failed to catch the impossible gap.")
         print(f"   Status was: {gym_session.validation_status}")
 
-    # Print Visual Summary
+    
     print("\n--- Visual Output ---")
     for item in master_schedule:
         icon = "🟢" if item.validation_status == "Valid" else "🔴"

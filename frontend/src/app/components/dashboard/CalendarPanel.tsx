@@ -2,14 +2,13 @@
 import React from 'react';
 import { Calendar, dateFnsLocalizer, View, Views } from 'react-big-calendar';
 
-// --- FIXED IMPORTS FOR DATE-FNS V4 ---
-// v4 requires named imports from the root package, not specific paths
+
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// Setup Localizer
+
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -20,7 +19,7 @@ const localizer = dateFnsLocalizer({
   },
 });
 
-// Reuse your interfaces
+//  interfaces
 interface CalendarEvent {
   title: string;
   start: Date;
@@ -32,13 +31,13 @@ interface CalendarEvent {
 
 interface CalendarPanelProps {
   events: CalendarEvent[];
-  view: View; // Ensure 'View' is imported from react-big-calendar
+  view: View; 
   onViewChange: (v: View) => void;
 }
 
 export default function CalendarPanel({ events, view, onViewChange }: CalendarPanelProps) {
   
-  // Style logic kept internal to this component
+  
   const eventStyleGetter = (event: CalendarEvent) => {
     let backgroundColor = '#3b82f6'; // Default Blue
     if (event.type === 'suggested') backgroundColor = '#10b981'; // Green
