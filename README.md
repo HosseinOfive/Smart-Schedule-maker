@@ -34,6 +34,9 @@ This project explores how large language models can be used as **decision-making
 * **React Big Calendar** (Scheduling visualization)
 * **Tailwind CSS** (Modern UI styling)
 
+### Testing
+*  API endpoints are covered by automated tests written with pytest.
+*  Used mocked dependencies to isolate and test scheduling logic.
 ## Known limitations
 * Commute time is currently mocked at 15 minutes
 * Some UI controls are not wired yet
