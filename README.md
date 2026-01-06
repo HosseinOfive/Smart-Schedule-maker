@@ -2,9 +2,9 @@
 ## What it is
 Smart-Schedule-maker is an AI-powered scheduling assistant that reads real calendar data and automatically reschedules events based on natural-language instructions.
 
-Users can upload a `.ics` calendar file, describe what they want to change in plain English (e.g. “I want to go to gym 3 time a week but not in the mornings or Fridays”), and the system uses an LLM to reason over time conflicts and update the calendar via API calls. 
+Users can upload a `.ics` calendar file, describe what they want to change in plain English (e.g. “I want to go to gym 3 time a week but not in the mornings or Fridays”). The system uses an LLM to reason over time conflicts and update the calendar via API calls. 
 
-This project explores how large language models can be used as decision-making engines for real-world productivity tools.
+This project explores how large language models can be used as **decision-making engines** for real-world productivity tools.
 
 ## What is does
 1.  **Ingests:** Parses raw `.ics` files (e.g., UofT Semester Schedule).
