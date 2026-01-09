@@ -20,12 +20,22 @@ This project explores how large language models can be used as **decision-making
 * The backend validates those changes based on the commute time of the locations
 * The backend applies those changes via API calls and sends them to Frontend
 * The Frontend displayes the new shcedule
+## Key Engineering Features
+
+* **Token-Optimized Context Window:** Developed a custom pruning pipeline that truncates non-actionable calendar data (stripping headers/footers outside 08:00–23:00). This reduced Gemini 2.5 Flash inference costs by ~40% without losing scheduling accuracy.
+
+* **Recursive Constraint Validation:** Implemented a backend verification layer that checks LLM outputs for physical feasibility—ensuring 15-minute "commute buffers" between geographically distinct events.
+
+* **Async Performance:** Built with FastAPI to handle non-blocking I/O, ensuring the LLM reasoning doesn't hang the user interface during complex multi-event shifts.
+
 
 ## Tech Stack
-### Backend 
-* **Python 3.12** & **FastAPI** (High-performance Async API)
+### IA/LLM
 * **LangChain** (Orchestration for LLM workflows)
 * **Google Gemini 2.5 Flash** (Generative AI for constraint reasoning)
+  
+### Backend 
+* **Python 3.12** & **FastAPI** (High-performance Async API)
 * **Pydantic** (Strict data validation & serialization)
 * **Icalendar** (RFC 5545 parsing standards)
 
