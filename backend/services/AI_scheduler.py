@@ -8,7 +8,7 @@ from langchain_core.prompts import PromptTemplate
 from backend.ics_core.schemas import FreeSlot, ScheduleResponse
 
 current_file_path = Path(__file__).resolve()
-env_path = current_file_path.parent.parent.parent / '.env'
+env_path = current_file_path.parent.parent / '.env'  ##backend/.env
 load_dotenv(dotenv_path=env_path)
 
 class AIScheduler: 

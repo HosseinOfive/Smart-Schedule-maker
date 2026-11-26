@@ -27,7 +27,8 @@ class TimeEngine:
         current_date = start_date
 
         while current_date <= end_date:   ###this just iterates through each date in the range
-            day_start = TARGET_TZ.localize(datetime.combine(current_date, time(day_start_hour, 0)))  
+            ##use localize (not replace) with pytz, otherwise Toronto gets the old LMT offset (-5:18)
+            day_start = TARGET_TZ.localize(datetime.combine(current_date, time(day_start_hour, 0)))
             day_end = TARGET_TZ.localize(datetime.combine(current_date, time(day_end_hour, 0)))
         
             ##thease 2 variables define the working hours for the current date (the time you are awake bassically)

@@ -1,64 +1,63 @@
-import sys
-import os
 from datetime import datetime
+from backend.ics_core.CONSTANTS import TARGET_TZ
+from backend.ics_core.schemas import Event, ScheduleResponse, ScheduledActivity, MasterScheduleItem
+from backend.services.geo_mock import merge_and_validate_mock, polished_master_schedule
 
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
-
-# Add project root to sys.path so we can import 'backend.ics_core'
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-
-from backend.ics_core.schemas import Event, ScheduleResponse, ScheduledActivity
-from backend.services.geo_mock import merge_and_validate_mock 
-
-def test_aggregator_logic():
-    print(f"🧪 Running Aggregator Test...\n")
-
-    fixed_events = [
-        Event(
-            summary="CSCB07 Lecture",
-            start_time=datetime(2025, 1, 15, 9, 0),
-            end_time=datetime(2025, 1, 15, 10, 0), # Ends at 10:00 AM
-            location="UTSC Campus",
-            description="Software Design"
-        )
-    ]
-
-    ai_suggestions = ScheduleResponse(
-        scheduled_activities=[
-            ScheduledActivity(
-                activity_name="Morning Gym Session",
-                start_time="2025-01-15T10:05:00", # Starts 10:05 AM
-                end_time="2025-01-15T11:00:00",
-                location="Pan Am Sports Centre"
-            )
-        ]
+def _lecture():
+    return Event(
+        summary="CSCB07 Lecture",
+        start_time=TARGET_TZ.localize(datetime(2025, 1, 15, 9, 0)),
+        end_time=TARGET_TZ.localize(datetime(2025, 1, 15, 10, 0)),  # Ends at 10:00 AM
+        location="UTSC Campus",
+        description="Software Design"
     )
 
 
-    print("🔄 Merging and Validating...")
-    master_schedule = merge_and_validate_mock(fixed_events, ai_suggestions)
+def _gym(start, end, location="Pan Am Sports Centre"):
+    return ScheduleResponse(scheduled_activities=[
+        ScheduledActivity(activity_name="Morning Gym Session", start_time=start, end_time=end, location=location)
+    ])
 
-    
-    print(f"📊 Generated {len(master_schedule)} items.\n")
 
-    gym_session = master_schedule[1] # The second item
+def _suggested(master_schedule):
+    return next(item for item in master_schedule if item.type == "suggested")
 
-    if gym_session.validation_status == "Impossible":
-        print("✅ SUCCESS: The aggregator correctly flagged the impossible gap.")
-        print(f"   Reason: {gym_session.validation_message}")
-    else:
-        print("❌ FAILURE: The aggregator failed to catch the impossible gap.")
-        print(f"   Status was: {gym_session.validation_status}")
 
-    
-    print("\n--- Visual Output ---")
-    for item in master_schedule:
-        icon = "🟢" if item.validation_status == "Valid" else "🔴"
-        print(f"{icon} {item.start.strftime('%H:%M')} - {item.end.strftime('%H:%M')} | {item.title} ({item.location})")
+def test_aggregator_flags_impossible_gap():
+    # 5 minute gap to a different location, less than FIXED_TRAVEL_TIME_MINUTES
+    master_schedule = merge_and_validate_mock(
+        [_lecture()], _gym("2025-01-15T10:05:00-05:00", "2025-01-15T11:00:00-05:00"))
 
-if __name__ == "__main__":
-    test_aggregator_logic()
+    assert len(master_schedule) == 2
+    assert [item.type for item in master_schedule] == ["fixed", "suggested"]  # sorted by start
+    gym_session = _suggested(master_schedule)
+    assert gym_session.validation_status == "Impossible"
+    assert "too short for travel" in gym_session.validation_message
+    assert master_schedule[0].validation_status == "Valid"  # the fixed lecture is never blamed
+
+
+def test_aggregator_allows_enough_travel_time():
+    master_schedule = merge_and_validate_mock(
+        [_lecture()], _gym("2025-01-15T10:30:00-05:00", "2025-01-15T11:30:00-05:00"))
+
+    assert _suggested(master_schedule).validation_status != "Impossible"
+
+
+def test_aggregator_same_location_needs_no_travel():
+    master_schedule = merge_and_validate_mock(
+        [_lecture()], _gym("2025-01-15T10:05:00-05:00", "2025-01-15T11:00:00-05:00", location="UTSC Campus"))
+
+    assert _suggested(master_schedule).validation_status != "Impossible"
+
+
+def test_polished_master_schedule_removes_adjacent_impossible_items():
+    def item(title, status):
+        return MasterScheduleItem(
+            title=title, start=TARGET_TZ.localize(datetime(2025, 1, 15, 9, 0)),
+            end=TARGET_TZ.localize(datetime(2025, 1, 15, 10, 0)),
+            location="X", type="suggested", validation_status=status)
+
+    items = [item("a", "Valid"), item("b", "Impossible"), item("c", "Impossible"), item("d", "Valid")]
+    assert [i.title for i in polished_master_schedule(items)] == ["a", "d"]
+    assert len(items) == 4  # input list is left untouched

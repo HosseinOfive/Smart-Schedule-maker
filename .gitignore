@@ -40,3 +40,8 @@ Thumbs.db
 
 .idea/
 *.log
+
+
+#benchmark .csvs
+
+benchmark_*.csv

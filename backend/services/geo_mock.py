@@ -90,5 +90,6 @@ def polished_master_schedule(
     """
     Cleans up the master schedule by removing impossible activities.
     """
+    ##build a new list instead of removing while iterating (that skips items)
     return [deepcopy(item) for item in events if item.validation_status != "Impossible"]
 
