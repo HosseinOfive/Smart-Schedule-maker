@@ -27,8 +27,8 @@ class TimeEngine:
         current_date = start_date
 
         while current_date <= end_date:   ###this just iterates through each date in the range
-            day_start = datetime.combine(current_date, time(day_start_hour, 0)).replace(tzinfo=TARGET_TZ)  
-            day_end = datetime.combine(current_date, time(day_end_hour, 0)).replace(tzinfo=TARGET_TZ)
+            day_start = TARGET_TZ.localize(datetime.combine(current_date, time(day_start_hour, 0)))  
+            day_end = TARGET_TZ.localize(datetime.combine(current_date, time(day_end_hour, 0)))
         
             ##thease 2 variables define the working hours for the current date (the time you are awake bassically)
             daily_events = [
@@ -74,12 +74,12 @@ class TimeEngine:
                 gap_end = min(next_start, day_end)
                 ##stuff tat gors outside working hours is dealt with here 
                 if gap_start < gap_end:
-                    TimeEngine._add_slot_if_valid(day_start, first_event_start, free_slots)
+                    TimeEngine._add_slot_if_valid(gap_start, gap_end, free_slots)
             last_event_end = min(daily_events[-1].end_time, day_end)
             
             ##we are free till we sleep
             if last_event_end < day_end:
-                TimeEngine._add_slot_if_valid(day_start, first_event_start, free_slots)
+                TimeEngine._add_slot_if_valid(last_event_end, day_end, free_slots)
         return free_slots
     
     
