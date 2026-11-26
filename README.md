@@ -22,7 +22,7 @@ This project explores how large language models can be used as **decision-making
 * The Frontend displayes the new shcedule
 ## Key Engineering Features
 
-* **Token-Optimized Context Window:** Developed a custom pruning pipeline that truncates non-actionable calendar data (stripping headers/footers outside 08:00–23:00). This reduced Gemini 2.5 Flash inference costs by ~40% without losing scheduling accuracy.
+* **Token-Optimized Context Window:** Developed a custom pruning pipeline that truncates non-actionable calendar data (stripping headers/footers outside 08:00–23:00). This reduced Gemini 2.5 Flash inference costs without losing scheduling accuracy.
 
 * **Recursive Constraint Validation:** Implemented a backend verification layer that checks LLM outputs for physical feasibility—ensuring 15-minute "commute buffers" between geographically distinct events.
 
